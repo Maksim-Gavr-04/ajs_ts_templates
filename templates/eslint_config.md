@@ -1,0 +1,108 @@
+# `eslint.config.mjs`
+
+```js
+import globals from 'globals';
+import ESLint from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin'
+import tsESLint from "typescript-eslint";
+
+export default [
+  ESLint.configs.recommended,
+  ...tsESLint.configs.recommended,
+  ...tsESLint.configs.strict,
+  ...tsESLint.configs.stylistic,
+  {
+    files: [ "**/*.{js,mjs,cjs,ts}" ]
+  },
+  {
+    // отключение проверок для папок
+    ignores: [
+      'dist/', '*.json', 'eslint.config.mjs'
+    ],
+  },
+  {
+    // определение стандарта и парсинга
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+        ...globals.jest,
+      },
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+  },
+  {
+    // files: ['src/**/*.js'],
+    rules: {
+      indent: [
+        'error', 2
+      ], // отступы, авто
+      semi: [
+        'error', 'always'
+      ], // точка с запятой, авто
+      'no-unused-vars': 'off', // не используемые переменные
+      'no-console': 'off', // console.log
+      'no-var': 'error',
+    },
+  },
+  {
+    files: [ '*.config.*' ], // правила для конфигов
+    rules: {
+      'no-underscore-dangle': [ 'off' ], // двойное подчеркивание перед/после переменной
+      'import/no-extraneous-dependencies': 'off', // импорт из дев-зависимостей
+    },
+  },
+  {
+    plugins: { '@stylistic': stylistic, },
+    rules: {
+      'max-len': [
+        'error', { code: 130 }
+      ], // длина строки, нет авто
+      quotes: [
+        'error', 'single'
+      ], // одинарные кавычки, авто
+      'array-bracket-spacing': [
+        'error', 'always'
+      ], // пробелы внутри массива - авто
+      'array-bracket-newline': [
+        'error', {
+          'multiline': true, 'minItems': 3
+        }
+      ], // перенос элементов массива на новые строки, если многоэлементный - авто
+      'object-curly-spacing': [
+        'error', 'always'
+      ], // пробелы внутри объекта
+      'object-curly-newline': [
+        'error', {
+          'ObjectExpression': {
+            'multiline': true, 'minProperties': 3
+          },
+        }
+      ], // перенос свойств объекта на новые строки, если много свойств - авто
+      'no-multi-spaces': [
+        'error',
+        {
+          exceptions: {
+            'Property': false,
+            'BinaryExpression': true,
+            'VariableDeclarator': true,
+            'ImportDeclaration': true
+          }
+        }
+      ], // убираем много пробелов в разных местах, авто
+      'key-spacing': [
+        'error', { 'mode': 'strict' }
+      ],
+      'no-trailing-spaces': 'error',
+      'no-multiple-empty-lines': [
+        'error', {
+          max: 1, // одна внутренняя
+          maxBOF: 1, // одна сверху в импортах
+        }
+      ], // пустые строки, авто
+    },
+  },
+];
+```
