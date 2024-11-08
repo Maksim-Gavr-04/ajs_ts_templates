@@ -1,5 +1,7 @@
 # The `npm` commands and scripts in the `package.json`
 
+**Важно**: для TypeScript.
+
 ---
 
 ## The `npm` commands
