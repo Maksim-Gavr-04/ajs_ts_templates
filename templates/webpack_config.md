@@ -54,7 +54,10 @@ module.exports = {
       template: './src/index.html',
       filename: 'main.html',
     }),
-    new MiniCssExtractPlugin({ filename: '[name].css', }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+    }),
   ],
 };
 ```
